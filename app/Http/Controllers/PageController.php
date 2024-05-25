@@ -14,16 +14,13 @@ class PageController extends Controller
 
 
         if($request->get('for-my')){
+
             $user = $request->user();
-
-            $friends_from_ids = $user->friendsFrom()->pluck('users.id');
-            $friends_to_ids = $user->friendsTo()->pluck('users.id');
-            $users_id = $friends_from_ids->merge($friends_to_ids)->push($user->id);
-
-            $posts = Post::whereIn('user_id', $users_id)->latest()->get();
+            $users_id = $user->friends()->pluck('id')->push($user->id);
+            $posts = Post::whereIn('user_id', $users_id)->latest()->with('user')->get();
 
         }else{
-            $posts = Post::latest()->get();
+            $posts = Post::latest()->with('user')->get();
         }
         
         return view('dashboard', compact('posts'));
@@ -31,7 +28,7 @@ class PageController extends Controller
 
     public function profile(User $user)
     {
-        $posts = $user->posts()->latest()->get();
+        $posts = $user->posts()->latest()->with('user')->get();
 
         return view('profile', compact('user', 'posts'));
     }
@@ -40,8 +37,9 @@ class PageController extends Controller
     {
         $requests = $request->user()->pendingTo;
         $sent = $request->user()->pendingFrom;
+        $friends = $request->user()->friends();
 
-        return view('status', compact('requests', 'sent'));
+        return view('status', compact('requests', 'sent', 'friends'));
     }
     
 

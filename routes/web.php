@@ -15,6 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/friends/{user}', [FriendController::class, 'store'])->name('friends.store');
+    Route::put('/friends/{user}', [FriendController::class, 'update'])->name('friends.update');
+
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::get('/profile/{user}', [PageController::class, 'profile'])->name('profile.show');
     Route::get('/status', [PageController::class, 'status'])->name('status');
