@@ -69,4 +69,17 @@ class User extends Authenticatable
     {
         return $this->to()->wherePivot('accepted', true);
     }
+
+    public function pendingFrom()
+    {
+        return $this->from()->wherePivot('accepted', false);
+    }
+
+    public function pendingTo()
+    {
+        return $this->to()->wherePivot('accepted', false);
+    }
+
+
+
 }

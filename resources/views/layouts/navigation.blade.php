@@ -3,6 +3,7 @@
         <div class="flex my-4">
 
         <x-nav-link href='/'>Home</x-nav-link>
+        <x-nav-link :href='route("status")'>Status</x-nav-link>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
